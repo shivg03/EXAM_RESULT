@@ -3,6 +3,7 @@ var bodyParser = require('body-parser')
 require('./models')
 var userController = require('./controllers/userController.JS')
 var examController = require('./controllers/examController')
+var resultController = require('./controllers/resultController')
 const app = express();
 
 app.use(bodyParser.json())
@@ -24,6 +25,12 @@ app.get('/getExam',examController.getExams)
 app.post('/postExam',examController.postExams)
 
 app.delete('/deleteExam/:id',examController.deleteExams)
+
+app.get('/getResult',resultController.getResults)
+
+app.post('/postResult',resultController.postResults)
+
+app.delete('/deleteResult/:id',resultController.deleteResults)
 
 app.listen(PORT,()=>{
     console.log(`App is Running on ${PORT}`);
