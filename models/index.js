@@ -23,5 +23,5 @@ db.Exam=require('./ExamModel')(sequelize,DataTypes)
 db.Result=require('./ResultModel')(sequelize,DataTypes)
 
 
-db.sequelize.sync({force:true});
+db.sequelize.sync({force:false});
 module.exports=db
