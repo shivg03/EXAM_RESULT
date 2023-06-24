@@ -4,6 +4,7 @@ require('./models')
 var userController = require('./controllers/userController.JS')
 var examController = require('./controllers/examController')
 var resultController = require('./controllers/resultController')
+const authController = require('./authentication/authController')
 const app = express();
 
 app.use(bodyParser.json())
@@ -31,6 +32,8 @@ app.get('/getResult',resultController.getResults)
 app.post('/postResult',resultController.postResults)
 
 app.delete('/deleteResult/:id',resultController.deleteResults)
+
+app.post('/register',authController.register)
 
 app.listen(PORT,()=>{
     console.log(`App is Running on ${PORT}`);
