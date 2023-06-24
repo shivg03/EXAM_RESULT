@@ -10,7 +10,6 @@ module.exports=(sequelize,DataTypes)=>{
         },
         studentId:{
             type:DataTypes.INTEGER,
-            autoIncrement: true,
             required:true,
         },
         examId:{
