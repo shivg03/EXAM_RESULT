@@ -14,14 +14,16 @@ sequelize.authenticate()
     console.log('error'+ err);
 });
 
-const db = {};
-db.Sequelize=Sequelize;
-db.sequelize=sequelize;
+module.exports = sequelize
 
-db.User=require('./UserModel')(sequelize,DataTypes)
-db.Exam=require('./ExamModel')(sequelize,DataTypes)
-db.Result=require('./ResultModel')(sequelize,DataTypes)
+// const db = {};
+// db.Sequelize=Sequelize;
+// db.sequelize=sequelize;
+
+// db.User=require('./UserModel')(sequelize,DataTypes)
+// db.Exam=require('./ExamModel')(sequelize,DataTypes)
+// db.Result=require('./ResultModel')(sequelize,DataTypes)
 
 
-db.sequelize.sync({force:false});
-module.exports=db
+// db.sequelize.sync({force:false});
+// module.exports=db

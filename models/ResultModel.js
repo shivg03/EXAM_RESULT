@@ -1,30 +1,44 @@
-const ExamModel=require('./ExamModel')
+const { DataTypes } = require("sequelize");
+const sequelize = require("../models/index");
+const examModel = require("../models/ExamModel");
+const User = require("./UserModel");
+const Exam = require("../models/ExamModel");
 
-module.exports=(sequelize,DataTypes)=>{
-    const Result= sequelize.define('Results',{
-        id:{
-            type:DataTypes.INTEGER,
-            unique:true,
-            required:true,
-            primaryKey:true,
-        },
-        studentId:{
-            type:DataTypes.INTEGER,
-            required:true,
-        },
-        examId:{
-            type:DataTypes.INTEGER,
-            References:{
-                model:ExamModel,
-                key:'id',
-            }
-        },
-        score:{
-            type:DataTypes.STRING,
-            required:true,
-        }
-    },{
-        tableName: "Results",
-    })
-    return Result;
-}
+const Result = sequelize.define(
+  "Results",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      unique: true,
+      required: true,
+      primaryKey: true,
+    },
+    studentId: {
+      type: DataTypes.INTEGER,
+      required: true,
+    },
+    examId: {
+      type: DataTypes.INTEGER,
+      References: {
+        model: examModel,
+        key: "id",
+      },
+    },
+    score: {
+      type: DataTypes.STRING,
+      required: true,
+    },
+  },
+  {
+    tableName: "Results",
+  }
+);
+Result.sequelize.sync({ force: false }).then(() => console.log("reSync Done"));
+
+User.hasMany(Result,{foreignKey:'studentId'});
+Result.belongsTo(User,{foreignKey:'studentId'});
+
+// Exam.hasMany(Result,{foreignKey:'examId'});
+// Result.belongsTo(Exam,{foreignKey:'examId'});
+
+module.exports = Result;

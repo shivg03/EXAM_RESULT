@@ -1,8 +1,12 @@
-const db = require("../models");
+const db = require("../models/UserModel.js");
 const User = db.User;
 
 const getUsers = async (req, res) => {
-  const data = await User.findAll({});
+  const data = await User.findAll({
+    where:{
+        id: req.params.id
+    },
+  });
   res.status(200).json({ data: data });
 };
 

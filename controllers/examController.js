@@ -1,4 +1,4 @@
-const db = require("../models");
+const db = require("../models/ExamModel");
 const Exam = db.Exam;
 
 const getExams = async (req, res) => {

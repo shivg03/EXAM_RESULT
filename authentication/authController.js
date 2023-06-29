@@ -1,27 +1,70 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('../models/UserModel')
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const db = require("../models");
+const User = require("../models/UserModel");
+const secretkey ='secretkey';
 
+const register = async (req, res) => {
+  const { name, email, password, type } = req.body;
 
-const register = async function (req,res){
-    try{
-        const {name,email,password,type}=req.body;
+  if (!name || !email || !password || !type) {
+    return res.status(422).json({ error: "required" });
+  }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+  try{
 
-        const data = await User.bulkCreate({
-            name,
-            email,
-            password: hashedPassword,
-            type
-        });
-        return res.status(201).json({data:data});
-    }catch (error){
-        console.log('Error during User registration',error);
-        return res.status(500).json({message:'Find Your Mistake'});
+     const userExists= await User.findOne({where:{ email }})
+   
+      if (userExists) {
+        return res.status(422).json({ error: "User Already Exists" });
+      }
+
+      // const { name, email, password, type } = req.body;
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const newUser = await User.create({
+        name,
+        email,
+        password: hashedPassword,
+        type
+      });
+      
+     res.status(201).json({ message: "User Registered Successfully" });
+        
+    } catch(err){
+      console.log(err);
     }
+};
+
+
+const login = async  (req,res)=>{
+  try{
+    const {email,password} =req.body;
+  
+
+  const user = await User.findOne({where: {email}});
+  if (!user) {
+    return res.status(401).json({ message: 'Invalid user' });
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    return res.status(401).json({ message: 'Invalid password' });
+  }
+
+ 
+  const token = jwt.sign({ userId: user.id, userName: user.name }, 'wwadff', { expiresIn: '30min' });
+
+
+
+  return res.status(200).json({ user, token });
+} catch (error) {
+  console.error('Login Error', error);
+}
 }
 
-module.exports={
-    register
-}
+module.exports = {
+  register,
+  login
+};
