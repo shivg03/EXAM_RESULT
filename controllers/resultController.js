@@ -1,6 +1,4 @@
-const db = require("../models/ResultModel");
-require("../models/ExamModel");
-const Result = db.Result;
+const Result = require('../models/ResultModel')
 
 const getResults = async (req, res) => {
     const data = await Result.findAll({});

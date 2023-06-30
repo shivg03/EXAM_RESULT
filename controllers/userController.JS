@@ -1,13 +1,19 @@
-const db = require("../models/UserModel.js");
-const User = db.User;
+const User = require('../models/UserModel')
 
-const getUsers = async (req, res) => {
-  const data = await User.findAll({
+const allUsers = async (req,res)=>{
+  const data = await User.findAll({})
+  res.status(200).json({data:data})
+}
+
+
+
+const getUsers =async (req, res) => {
+  let users = await User.findOne({
     where:{
-        id: req.params.id
-    },
+      id: req.params.id
+  },
   });
-  res.status(200).json({ data: data });
+  res.status(200).send(users);
 };
 
 const postUsers = async(req,res)=>{
@@ -29,8 +35,12 @@ const deleteUsers = async(req,res)=>{
     res.status(200).json({data:data});
 }
 
+
+
 module.exports = {
+  allUsers,
   getUsers,
   postUsers,
-  deleteUsers
+  deleteUsers,
+
 };

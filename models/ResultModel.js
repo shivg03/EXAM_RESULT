@@ -33,12 +33,14 @@ const Result = sequelize.define(
     tableName: "Results",
   }
 );
-Result.sequelize.sync({ force: false }).then(() => console.log("reSync Done"));
 
-User.hasMany(Result,{foreignKey:'studentId'});
-Result.belongsTo(User,{foreignKey:'studentId'});
+
+Result.belongsTo(User, { foreignKey: 'studentId', as: 'student' });
+Result.belongsTo(Exam, { foreignKey: 'examId', as: 'exam' });
 
 // Exam.hasMany(Result,{foreignKey:'examId'});
 // Result.belongsTo(Exam,{foreignKey:'examId'});
+
+Result.sequelize.sync({ force: false }).then(() => console.log("reSync Done"));
 
 module.exports = Result;
