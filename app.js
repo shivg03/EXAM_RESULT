@@ -2,6 +2,7 @@ const express = require('express');
 var bodyParser = require('body-parser')
 require('./models')
 const userRouter = require('./routers/userRouter')
+const examRouter = require('./routers/examRouter')
 const authController = require('./authentication/authController')
 
 const app = express();
@@ -16,6 +17,7 @@ app.get('/',(req,res)=>{
 
 
 app.use('/user',userRouter)
+app.use('/exam',examRouter)
 
 
 app.post('/register',authController.register)

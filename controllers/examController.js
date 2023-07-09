@@ -1,7 +1,18 @@
 const Exam = require('../models/ExamModel')
 
+const allexams = async (req,res)=>{
+    const data = await Exam.findAll({})
+    res.status(200).json({data:data})
+  }
+
+
+
 const getExams = async (req, res) => {
-    const data = await Exam.findAll({});
+    const data = await Exam.findOne({
+        where:{
+            id: req.params.id
+        },
+    });
     res.status(200).json({ data: data });
   };
 
@@ -26,6 +37,7 @@ const deleteExams = async(req,res)=>{
 }
 
 module.exports={
+    allexams,
     postExams,
     deleteExams,
     getExams
